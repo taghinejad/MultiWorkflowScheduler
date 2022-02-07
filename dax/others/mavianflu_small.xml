@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Avian Flu drug design workflow (Figure 11 in Ramakrishnan and Gannon) -->
+<adag xmlns="http://pegasus.isi.edu/schema/DAX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/schema/dax-2.1.xsd" name="avianflu" jobCount="102" fileCount="0" childCount="101">
+	<job id="autodock55" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in55.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in55.dat" link="input" size="51200"/>
+		<uses file="autodock_out55.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock65" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in65.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in65.dat" link="input" size="51200"/>
+		<uses file="autodock_out65.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock81" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in81.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in81.dat" link="input" size="7864320"/>
+		<uses file="autodock_out81.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock45" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in45.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in45.dat" link="input" size="51200"/>
+		<uses file="autodock_out45.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock63" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in63.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in63.dat" link="input" size="51200"/>
+		<uses file="autodock_out63.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock99" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in99.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in99.dat" link="input" size="7864320"/>
+		<uses file="autodock_out99.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock66" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in66.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in66.dat" link="input" size="51200"/>
+		<uses file="autodock_out66.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock7" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in7.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in7.dat" link="input" size="51200"/>
+		<uses file="autodock_out7.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock82" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in82.dat" link="input" size="51200"/>
+		<uses file="autodock_1in82.dat" link="input" size="7864320"/>
+		<uses file="autodock_out82.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock30" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in30.dat" link="input" size="51200"/>
+		<uses file="autodock_1in30.dat" link="input" size="7864320"/>
+		<uses file="autodock_out30.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock19" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in19.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in19.dat" link="input" size="51200"/>
+		<uses file="autodock_out19.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock46" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in46.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in46.dat" link="input" size="51200"/>
+		<uses file="autodock_out46.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock64" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in64.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in64.dat" link="input" size="51200"/>
+		<uses file="autodock_out64.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock83" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in83.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in83.dat" link="input" size="51200"/>
+		<uses file="autodock_out83.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock90" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in90.dat" link="input" size="51200"/>
+		<uses file="autodock_1in90.dat" link="input" size="7864320"/>
+		<uses file="autodock_out90.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock20" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in20.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in20.dat" link="input" size="51200"/>
+		<uses file="autodock_out20.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock84" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in84.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in84.dat" link="input" size="51200"/>
+		<uses file="autodock_out84.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock23" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in23.dat" link="input" size="51200"/>
+		<uses file="autodock_1in23.dat" link="input" size="7864320"/>
+		<uses file="autodock_out23.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock69" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in69.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in69.dat" link="input" size="51200"/>
+		<uses file="autodock_out69.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock85" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in85.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in85.dat" link="input" size="7864320"/>
+		<uses file="autodock_out85.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock92" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in92.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in92.dat" link="input" size="51200"/>
+		<uses file="autodock_out92.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock70" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in70.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in70.dat" link="input" size="51200"/>
+		<uses file="autodock_out70.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock86" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in86.dat" link="input" size="51200"/>
+		<uses file="autodock_1in86.dat" link="input" size="7864320"/>
+		<uses file="autodock_out86.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock5" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in5.dat" link="input" size="51200"/>
+		<uses file="autodock_1in5.dat" link="input" size="7864320"/>
+		<uses file="autodock_out5.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock28" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in28.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in28.dat" link="input" size="51200"/>
+		<uses file="autodock_out28.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock71" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in71.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in71.dat" link="input" size="7864320"/>
+		<uses file="autodock_out71.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock87" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in87.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in87.dat" link="input" size="51200"/>
+		<uses file="autodock_out87.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock100" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in100.dat" link="input" size="51200"/>
+		<uses file="autodock_1in100.dat" link="input" size="7864320"/>
+		<uses file="autodock_out100.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock22" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in22.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in22.dat" link="input" size="7864320"/>
+		<uses file="autodock_out22.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock33" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in33.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in33.dat" link="input" size="7864320"/>
+		<uses file="autodock_out33.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock88" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in88.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in88.dat" link="input" size="51200"/>
+		<uses file="autodock_out88.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock75" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in75.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in75.dat" link="input" size="51200"/>
+		<uses file="autodock_out75.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock73" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in73.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in73.dat" link="input" size="51200"/>
+		<uses file="autodock_out73.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock89" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in89.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in89.dat" link="input" size="7864320"/>
+		<uses file="autodock_out89.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock91" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in91.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in91.dat" link="input" size="51200"/>
+		<uses file="autodock_out91.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock37" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in37.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in37.dat" link="input" size="51200"/>
+		<uses file="autodock_out37.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock9" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in9.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in9.dat" link="input" size="51200"/>
+		<uses file="autodock_out9.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock76" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in76.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in76.dat" link="input" size="51200"/>
+		<uses file="autodock_out76.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock1" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in1.dat" link="input" size="51200"/>
+		<uses file="autodock_1in1.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_out1.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock24" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in24.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in24.dat" link="input" size="51200"/>
+		<uses file="autodock_out24.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock51" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in51.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in51.dat" link="input" size="51200"/>
+		<uses file="autodock_out51.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock77" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in77.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in77.dat" link="input" size="51200"/>
+		<uses file="autodock_out77.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock27" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in27.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in27.dat" link="input" size="51200"/>
+		<uses file="autodock_out27.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock18" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in18.dat" link="input" size="51200"/>
+		<uses file="autodock_1in18.dat" link="input" size="7864320"/>
+		<uses file="autodock_out18.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock29" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in29.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in29.dat" link="input" size="7864320"/>
+		<uses file="autodock_out29.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock79" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in79.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in79.dat" link="input" size="7864320"/>
+		<uses file="autodock_out79.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock68" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in68.dat" link="input" size="51200"/>
+		<uses file="autodock_1in68.dat" link="input" size="7864320"/>
+		<uses file="autodock_out68.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock74" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in74.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in74.dat" link="input" size="51200"/>
+		<uses file="autodock_out74.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock34" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in34.dat" link="input" size="51200"/>
+		<uses file="autodock_1in34.dat" link="input" size="7864320"/>
+		<uses file="autodock_out34.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock53" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in53.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in53.dat" link="input" size="7864320"/>
+		<uses file="autodock_out53.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock80" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in80.dat" link="input" size="51200"/>
+		<uses file="autodock_1in80.dat" link="input" size="7864320"/>
+		<uses file="autodock_out80.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock10" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in10.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in10.dat" link="input" size="51200"/>
+		<uses file="autodock_out10.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock78" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in78.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in78.dat" link="input" size="51200"/>
+		<uses file="autodock_out78.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock95" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in95.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in95.dat" link="input" size="7864320"/>
+		<uses file="autodock_out95.dat" link="output" size="204800"/>
+	</job>
+	<job id="prepare" namespace="avianflu" name="PrepareGPF" runtime="120" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="prepare_out.dat" link="output" size="1024"/>
+	</job>
+	<job id="autodock12" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in12.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in12.dat" link="input" size="51200"/>
+		<uses file="autodock_out12.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock52" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in52.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in52.dat" link="input" size="51200"/>
+		<uses file="autodock_out52.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock96" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in96.dat" link="input" size="51200"/>
+		<uses file="autodock_1in96.dat" link="input" size="7864320"/>
+		<uses file="autodock_out96.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock67" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in67.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in67.dat" link="input" size="7864320"/>
+		<uses file="autodock_out67.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock25" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in25.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in25.dat" link="input" size="7864320"/>
+		<uses file="autodock_out25.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock97" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in97.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in97.dat" link="input" size="51200"/>
+		<uses file="autodock_out97.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock40" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in40.dat" link="input" size="51200"/>
+		<uses file="autodock_1in40.dat" link="input" size="7864320"/>
+		<uses file="autodock_out40.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock98" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in98.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in98.dat" link="input" size="51200"/>
+		<uses file="autodock_out98.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock44" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in44.dat" link="input" size="51200"/>
+		<uses file="autodock_1in44.dat" link="input" size="7864320"/>
+		<uses file="autodock_out44.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock38" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in38.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in38.dat" link="input" size="51200"/>
+		<uses file="autodock_out38.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock41" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in41.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in41.dat" link="input" size="51200"/>
+		<uses file="autodock_out41.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock13" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in13.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in13.dat" link="input" size="7864320"/>
+		<uses file="autodock_out13.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock14" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in14.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in14.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_out14.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock8" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in8.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in8.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_out8.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock72" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in72.dat" link="input" size="51200"/>
+		<uses file="autodock_1in72.dat" link="input" size="7864320"/>
+		<uses file="autodock_out72.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock3" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in3.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in3.dat" link="input" size="51200"/>
+		<uses file="autodock_out3.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock35" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in35.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in35.dat" link="input" size="51200"/>
+		<uses file="autodock_out35.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock56" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in56.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in56.dat" link="input" size="51200"/>
+		<uses file="autodock_out56.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock39" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in39.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in39.dat" link="input" size="7864320"/>
+		<uses file="autodock_out39.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock17" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in17.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in17.dat" link="input" size="7864320"/>
+		<uses file="autodock_out17.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock57" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in57.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in57.dat" link="input" size="7864320"/>
+		<uses file="autodock_out57.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock2" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in2.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in2.dat" link="input" size="51200"/>
+		<uses file="autodock_out2.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock43" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in43.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in43.dat" link="input" size="7864320"/>
+		<uses file="autodock_out43.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock93" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in93.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in93.dat" link="input" size="7864320"/>
+		<uses file="autodock_out93.dat" link="output" size="204800"/>
+	</job>
+	<job id="autogrid" namespace="avianflu" name="AutoGrid" runtime="240" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="prepare_out.dat" link="input" size="1024"/>
+		<uses file="autodock_1in81.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in4.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in66.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in82.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in42.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in56.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in67.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in83.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in68.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in33.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in61.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in18.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in69.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in3.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in85.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in13.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in91.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in70.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in86.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in22.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in20.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in29.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in71.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in38.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in87.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in45.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in63.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in55.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in72.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in88.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in30.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in23.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in43.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in73.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in89.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in7.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in5.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in74.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in48.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in90.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in75.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in77.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in32.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in92.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in78.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in6.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in53.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in79.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in76.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in49.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in80.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in44.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in34.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in21.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in50.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in95.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in1.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in35.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in17.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in96.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in51.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in8.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in25.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in97.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in93.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in12.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in26.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in52.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in98.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in40.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in41.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in99.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in28.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in100.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in31.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in84.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in14.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in57.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in54.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in36.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in58.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in16.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in59.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in94.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in46.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in9.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in27.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in47.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in19.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in11.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in15.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in62.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in39.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in10.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in60.dat" link="output" size="7864320"/>
+		<uses file="autogrid_out.dat" link="output" size="204800"/>
+		<uses file="autodock_1in24.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in2.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in37.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in64.dat" link="output" size="7864320"/>
+		<uses file="autodock_1in65.dat" link="output" size="7864320"/>
+	</job>
+	<job id="autodock58" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in58.dat" link="input" size="51200"/>
+		<uses file="autodock_1in58.dat" link="input" size="7864320"/>
+		<uses file="autodock_out58.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock4" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in4.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in4.dat" link="input" size="51200"/>
+		<uses file="autodock_out4.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock21" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in21.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in21.dat" link="input" size="51200"/>
+		<uses file="autodock_out21.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock54" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in54.dat" link="input" size="51200"/>
+		<uses file="autodock_1in54.dat" link="input" size="7864320"/>
+		<uses file="autodock_out54.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock31" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in31.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in31.dat" link="input" size="51200"/>
+		<uses file="autodock_out31.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock11" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in11.dat" link="input" size="51200"/>
+		<uses file="autodock_1in11.dat" link="input" size="7864320"/>
+		<uses file="autodock_out11.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock32" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in32.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in32.dat" link="input" size="51200"/>
+		<uses file="autodock_out32.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock59" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in59.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in59.dat" link="input" size="51200"/>
+		<uses file="autodock_out59.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock26" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in26.dat" link="input" size="51200"/>
+		<uses file="autodock_1in26.dat" link="input" size="7864320"/>
+		<uses file="autodock_out26.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock15" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in15.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in15.dat" link="input" size="51200"/>
+		<uses file="autodock_out15.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock6" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in6.dat" link="input" size="51200"/>
+		<uses file="autodock_1in6.dat" link="input" size="7864320"/>
+		<uses file="autodock_out6.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock16" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in16.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in16.dat" link="input" size="7864320"/>
+		<uses file="autodock_out16.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock42" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in42.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in42.dat" link="input" size="51200"/>
+		<uses file="autodock_out42.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock47" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in47.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in47.dat" link="input" size="7864320"/>
+		<uses file="autodock_out47.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock60" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in60.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in60.dat" link="input" size="51200"/>
+		<uses file="autodock_out60.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock36" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in36.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in36.dat" link="input" size="51200"/>
+		<uses file="autodock_out36.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock48" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in48.dat" link="input" size="51200"/>
+		<uses file="autodock_1in48.dat" link="input" size="7864320"/>
+		<uses file="autodock_out48.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock61" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_2in61.dat" link="input" size="51200"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in61.dat" link="input" size="7864320"/>
+		<uses file="autodock_out61.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock49" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="autodock_1in49.dat" link="input" size="7864320"/>
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in49.dat" link="input" size="51200"/>
+		<uses file="autodock_out49.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock94" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in94.dat" link="input" size="51200"/>
+		<uses file="autodock_1in94.dat" link="input" size="7864320"/>
+		<uses file="autodock_out94.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock50" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_1in50.dat" link="input" size="7864320"/>
+		<uses file="autodock_2in50.dat" link="input" size="51200"/>
+		<uses file="autodock_out50.dat" link="output" size="204800"/>
+	</job>
+	<job id="autodock62" namespace="avianflu" name="AutoDock" runtime="1800" cores="1">
+		<uses file="input1.dat" link="input" size="153600"/>
+		<uses file="autodock_2in62.dat" link="input" size="51200"/>
+		<uses file="autodock_1in62.dat" link="input" size="7864320"/>
+		<uses file="autodock_out62.dat" link="output" size="204800"/>
+	</job>
+	<child ref="autodock55">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock65">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock81">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock45">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock63">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock99">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock66">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock7">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock82">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock30">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock19">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock46">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock64">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock83">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock90">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock20">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock84">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock23">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock69">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock85">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock92">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock70">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock86">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock5">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock28">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock71">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock87">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock100">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock22">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock33">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock88">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock75">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock73">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock89">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock91">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock37">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock9">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock76">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock1">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock24">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock51">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock77">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock27">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock18">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock29">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock79">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock68">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock74">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock34">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock53">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock80">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock10">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock78">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock95">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock12">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock52">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock96">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock67">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock25">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock97">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock40">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock98">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock44">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock38">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock41">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock13">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock14">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock8">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock72">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock3">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock35">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock56">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock39">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock17">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock57">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock2">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock43">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock93">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autogrid">
+		<parent ref="prepare"/>
+	</child>
+	<child ref="autodock58">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock4">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock21">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock54">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock31">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock11">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock32">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock59">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock26">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock15">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock6">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock16">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock42">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock47">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock60">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock36">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock48">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock61">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock49">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock94">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock50">
+		<parent ref="autogrid"/>
+	</child>
+	<child ref="autodock62">
+		<parent ref="autogrid"/>
+	</child>
+</adag>

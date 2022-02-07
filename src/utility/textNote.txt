@@ -1,0 +1,49 @@
+		//BDCD taghinezhad
+		// BDC taghinezhad
+		// BDHEFT: Verma
+		// DBCS: Hamid Arabnejad
+		//BDSD: Sun
+		
+		
+		STANDARD TO GET DATA FROM MY SENARIO
+					mips to data  
+		MONTAGE		100-10
+		SIPHT		100-1
+		CYBER		100-1
+		EPIGENOMIC	10-1
+		INSPIRAL	100-100
+		
+		Range Base:
+		cost = executionClass.CheapestCost+ (float) i * (executionClass.HeftCost - executionClass.CheapestCost)/2;
+		deadline = (executionClass.FastestCPTime)+ Math.round(((float) j * (executionClass.CheapestCpTime - executionClass.FastestCPTime)/2));
+		
+		
+		
+Mine Senario		
+--------------------------------------------------------------------
+Epigenomic
+		Senario
+		Graph 100*1 :
+					cost = executionClass.CheapestCost
+						+ (float) i * (executionClass.HeftCost*2 - executionClass.CheapestCost);
+				deadline = (executionClass.FastestCPTime)
+						+ Math.round(((float) j * (executionClass.CheapestCpTime/8 - executionClass.FastestCPTime)) );
+---------------------------------------------------
+Montage 
+Graph 100-10
+				cost = executionClass.CheapestCost
+						+ (float) i * (executionClass.HeftCost - executionClass.CheapestCost)/(float)1.8;
+				deadline = (executionClass.FastestCPTime)
+						+ Math.round(((float) j * (executionClass.CheapestCpTime - executionClass.FastestCPTime))/(float)2.2);
+						
+works with graph 100-1
+-------------------------------------------------------
+Sipht , Cyber
+graph 100*1
+cost /3
+time /3
+-----------------
+inspiral
+/1
+graph 100-1
+
