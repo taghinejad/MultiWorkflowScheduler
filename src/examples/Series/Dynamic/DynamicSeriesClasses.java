@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-
 import Broker.WorkflowPolicy;
 import Broker.result;
 import algorithms.multiworkflow.CUSF;
@@ -21,9 +20,11 @@ import utility.configuration;
 public class DynamicSeriesClasses {
 	public static List<List<result>> SRS;
 	public static List<String> workloads;
+
 	public static int wfreturn(int wfsize, int i) {
 		return i % wfsize + 1;
 	}
+
 	public static void RunProDynamicPossionWorkload(Algorithm[] algs, double unCertainDeviation, double HeftCoefficient,
 			int workloadnum, int wfsize, double arrival, Boolean instprint, float fluctpercent) {
 
@@ -44,26 +45,27 @@ public class DynamicSeriesClasses {
 		Random rn = new Random();
 		System.out.println("starting configuring workflows: " + workloadnum);
 		int w, s = 0;
-
+		int j = 0;
 		if (staticworkflow) {
 			while (i < workloadnum) {
 
-				wfSize = wfreturn(wfsize, i);
+				wfSize = wfreturn(wfsize, j);
 				wfs.add(Utility.returnDaxMontage(wfSize));
 				i++;
-				wfSize = wfreturn(wfsize, i);
+
 				wfs.add(Utility.returnDaxEpigenomics(wfSize));
 				i++;
-				
+
 				wfs.add(Utility.returnDaxSipht(wfSize));
 				i++;
-				wfSize = wfreturn(wfsize, i);
+
 				wfs.add(Utility.returnDaxInspiral(wfSize));
 				i++;
-				wfSize = wfreturn(wfsize, i);
+
 				wfs.add(Utility.returnDaxCyberShake(wfSize));
 				i++;
 
+				j++;
 			}
 		} else {
 			while (i < workloadnum) {
@@ -101,7 +103,7 @@ public class DynamicSeriesClasses {
 				arrival, instprint);
 	}
 
-		public static void ProDynamic(Algorithm[] algs, List<String> wfs, int res, int interval, int bandwidth,
+	public static void ProDynamic(Algorithm[] algs, List<String> wfs, int res, int interval, int bandwidth,
 			float unCertainDeviation, float heftCoefficient, Boolean instprint) {
 		List<Long> deadline = new ArrayList<Long>();
 		List<Long> starts = new ArrayList<Long>();
@@ -128,6 +130,7 @@ public class DynamicSeriesClasses {
 		if (unCertainDeviation > 0) {
 			configuration.EnableUncertainTaskExecution((float) 0.2);
 		}
+		bandwidth/=8;
 		long dl, st;
 		long heftTime;
 
@@ -165,8 +168,8 @@ public class DynamicSeriesClasses {
 			System.out.println(
 					"Workflows(" + i + ") " + wfs.get(i) + " 	 ST:" + starts.get(i) + "   DL:" + deadline.get(i));
 		}
-		System.out.println("and other "+(wfs.size()-5)+" \n"+
-				"||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		System.out.println("and other " + (wfs.size() - 5) + " \n"
+				+ "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 
 	}
 
@@ -202,12 +205,12 @@ public class DynamicSeriesClasses {
 				SR = new ArrayList<result>();
 				SR.add(CUSF.OverallResults);
 				SRS.add(SR);
-			}else if (algorithm == algorithm.NOSF) {
+			} else if (algorithm == algorithm.NOSF) {
 				executionClass.RunNOSF(wfs, starts, deadlines, cost, instprint, res, interval, bandwidth);
 				SR = new ArrayList<result>();
 				SR.add(NOSF.OverallResults);
 				SRS.add(SR);
-			} 
+			}
 		}
 
 	}
@@ -266,7 +269,6 @@ public class DynamicSeriesClasses {
 			succRate = (float) (Total - missedDeadline) * 100 / Total;
 			avgTimeRatio = avgTimeRatio / Total;
 
-
 		}
 
 		// Print sumup
@@ -302,9 +304,9 @@ public class DynamicSeriesClasses {
 			succRate = (float) (Total - missedDeadline) * 100 / Total;
 			avgTimeRatio = (float) avgTimeRatio / Total;
 			System.out.println(str + "=>SuccRate:" + succRate + "%    missedDeadline:" + missedDeadline + " total:"
-					+ workloads.size() +  " energy:" + AvgEnergy + " cost:" + AvgCost + " AvgEnergy:"
+					+ workloads.size() + " energy:" + AvgEnergy + " cost:" + AvgCost + " AvgEnergy:"
 					+ Math.round((float) AvgEnergy / Sumup.get(str).size()) + " AvgCost:"
-					+ Math.round((float) AvgCost / Sumup.get(str).size()) );
+					+ Math.round((float) AvgCost / Sumup.get(str).size()));
 		}
 	}
 

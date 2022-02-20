@@ -70,7 +70,7 @@ public abstract class WorkflowPolicy {
 		int run = 0;
 		for (WorkflowNode node : wg.getNodes().values()) {
 			run = (int) Math.ceil((float) node.getInstructionSize() / maxMIPS);
-			run = (int) Math.round((run + fluctpercent*Math.sqrt(calcFluctuation(run))));
+			run = (int) Math.round((run + fluctpercent * Math.sqrt(calcFluctuation(run))));
 			node.setRunTime(run);
 		}
 
@@ -122,6 +122,16 @@ public abstract class WorkflowPolicy {
 				ts += (float) parent.getDataSize() / bandwidth;
 		}
 		return Math.round(ts);
+	}
+
+	public long TransferSize(WorkflowNode curNode, WorkflowGraph graph) {
+		int start = 0;
+		for (Link parent : curNode.getParents()) {
+			start += curNode.getParentDataSize(parent.getId());
+
+		}
+
+		return start;
 	}
 
 	public long GetMyFileTransferTime(long curStart, WorkflowNode curNode, Instance in) {
@@ -534,7 +544,6 @@ public abstract class WorkflowPolicy {
 			}
 		}
 
-		
 		int curRes = resources.getMaxId();
 		Instance inst = new Instance(instances.getSize(), resources.getResource(curRes));
 		r = checkInstance(curNode, inst);
@@ -543,10 +552,11 @@ public abstract class WorkflowPolicy {
 			bestFinish = r.finishTime;
 			bestInst = 10000 + curRes;
 		}
-		
+
 		return bestInst;
 
 	}
+
 	protected int getFastestInstanceIndex2(WorkflowNode curNode) {
 		result r;
 		int bestInst = -1;
@@ -572,7 +582,6 @@ public abstract class WorkflowPolicy {
 			}
 		}
 
-		
 		int curRes = resources.getMaxId();
 		Instance inst = new Instance(instances.getSize(), resources.getResource(curRes));
 		r = checkInstance(curNode, inst);
@@ -581,10 +590,11 @@ public abstract class WorkflowPolicy {
 			bestFinish = r.finishTime;
 			bestInst = 50000 + curRes;
 		}
-		
+
 		return bestInst;
 
 	}
+
 	protected Instance getEcoEnergyInstance(WorkflowNode curNode) {
 		result r;
 		int bestInst = -1;
@@ -1197,6 +1207,33 @@ public abstract class WorkflowPolicy {
 
 	protected long computeDataTransferTime(WorkflowNode curNode, WorkflowGraph graph) {
 		Map<String, WorkflowNode> nodes = graph.getNodes();
+		long thisTime, maxTime, maxTransfer=0;
+		maxTime = -1;
+		long datatransfertime = 0, selfTransfer = 0;
+		WorkflowNode parentNode;
+		long transfer=0;
+		for (Link parent : curNode.getParents()) {
+			parentNode = nodes.get(parent.getId());
+			datatransfertime = Math.round((float) parent.getDataSize() / bandwidth);
+			transfer+=parent.getDataSize() ;
+			if (selfTransfer > datatransfertime)
+				datatransfertime = selfTransfer;
+
+			thisTime = (int) (parentNode.getEFT() + datatransfertime);
+			if (thisTime > maxTime)
+				maxTime = thisTime;
+			if (maxTransfer<datatransfertime) {
+				maxTransfer=datatransfertime;
+			}
+		}
+		curNode.setNeedTransferTime(maxTransfer);
+		curNode.setTransferSize(transfer);
+		return maxTime;
+	}
+	
+
+	protected long computePureDataTransferTime(WorkflowNode curNode, WorkflowGraph graph) {
+		Map<String, WorkflowNode> nodes = graph.getNodes();
 		long thisTime, maxTime;
 		maxTime = -1;
 		float datatransfertime = 0, selfTransfer = 0;
@@ -1205,11 +1242,23 @@ public abstract class WorkflowPolicy {
 		for (Link parent : curNode.getParents()) {
 			parentNode = nodes.get(parent.getId());
 			datatransfertime = Math.round((float) parent.getDataSize() / bandwidth);
-//		selfTransfer = Math.round((float) curNode.getReadFileSize() / bandwidth);
-			if (selfTransfer > datatransfertime)
-				datatransfertime = selfTransfer;
+			thisTime = (int) (datatransfertime);
+			if (thisTime > maxTime)
+				maxTime = thisTime;
+		}
+		return maxTime;
+	}
+	protected long computePureDataTransferSize(WorkflowNode curNode, WorkflowGraph graph) {
+		Map<String, WorkflowNode> nodes = graph.getNodes();
+		long thisTime, maxTime;
+		maxTime = -1;
+		float datatransfertime = 0, selfTransfer = 0;
+		WorkflowNode parentNode;
 
-			thisTime = (int) (parentNode.getEFT() + datatransfertime);
+		for (Link parent : curNode.getParents()) {
+			parentNode = nodes.get(parent.getId());
+			datatransfertime = Math.round((float) parent.getDataSize());
+			thisTime = (int) (datatransfertime);
 			if (thisTime > maxTime)
 				maxTime = thisTime;
 		}
@@ -1268,7 +1317,7 @@ public abstract class WorkflowPolicy {
 		Queue<String> candidateNodes = new LinkedList<String>();
 		Map<String, WorkflowNode> nodes = graph.getNodes();
 		WorkflowNode curNode, parentNode, childNode;
-
+		long datasize = 0, runTime = 0,edgeNum=0,dataTime = 0;
 		curNode = nodes.get(graph.getStartId());
 		curNode.setEST(startTime);
 		curNode.setEFT(startTime);
@@ -1281,24 +1330,18 @@ public abstract class WorkflowPolicy {
 			curNode = nodes.get(candidateNodes.remove());
 			maxTime = -1;
 			maxTime = (int) computeDataTransferTime(curNode, graph);
-
-//			float datatransfertime = 0, selfTransfer = 0;
-//			for (Link parent : curNode.getParents()) {
-//				parentNode = nodes.get(parent.getId());
-//				datatransfertime = Math.round((float) parent.getDataSize() / bandwidth);
-//				selfTransfer = Math.round((float) curNode.getReadFileSize() / bandwidth);
-//				if (selfTransfer > datatransfertime)
-//					datatransfertime = selfTransfer;
-//
-//				thisTime = (int) (parentNode.getEFT() + datatransfertime);
-//				if (thisTime > maxTime)
-//					maxTime = thisTime;
-//			}
+			
+			
 			curNode.setEST(maxTime);
 			curNode.setEFT(maxTime + curNode.getRunTime());
 			curNode.setScheduled();
-
 			for (Link child : curNode.getChildren()) {
+			
+				if (!child.getId().contains(graph.getEndId())  && !child.getId().contains(graph.getStartId()))
+				{
+					edgeNum++;
+					
+				}
 				boolean isCandidate = true;
 				childNode = nodes.get(child.getId());
 				for (Link parent : childNode.getParents())
@@ -1306,9 +1349,11 @@ public abstract class WorkflowPolicy {
 						isCandidate = false;
 				if (isCandidate)
 					candidateNodes.add(child.getId());
-			}
+			}	
 		}
-		for (WorkflowNode node : nodes.values())
+		graph.setEdgeNumber(edgeNum);
+	
+		for(WorkflowNode node : nodes.values())
 			node.setUnscheduled();
 	}
 
@@ -1837,12 +1882,11 @@ public abstract class WorkflowPolicy {
 					nodeSize += workflowGraph.getNodes().size();
 					workloads++;
 				}
-				System.err.print(
-						"\n ==> Workloads: " + workloads );
-			} 
+				System.err.print("\n ==> Workloads: " + workloads);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			
+
 		}
 //		computeFinalEnergy();
 		return (totalCost);
@@ -2021,7 +2065,7 @@ public abstract class WorkflowPolicy {
 	}
 
 	public int calcEnergyBasedLi(int exTime, float freq, Instance curInst) {
-//		Li, Z., Ge, J., Hu, H., Song, W., Hu, H., & Luo, B. (2018). Cost and Energy Aware Scheduling Algorithm for Scientific Workflows with Deadline Constraint in Clouds. IEEE TRANSACTIONS ON SERVICES COMPUTING, 11(4), 713–726.
+//		Li, Z., Ge, J., Hu, H., Song, W., Hu, H., & Luo, B. (2018). Cost and Energy Aware Scheduling Algorithm for Scientific Workflows with Deadline Constraint in Clouds. IEEE TRANSACTIONS ON SERVICES COMPUTING, 11(4), 713â€“726.
 
 //		curInst.getType().getEnergyPerSec());
 		float freqLevel = curInst.getFrequencyLevel(freq);
@@ -2115,7 +2159,6 @@ public abstract class WorkflowPolicy {
 			} else {
 				nodeSize = graph.nodes.size();
 			}
-
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -2436,10 +2479,10 @@ public abstract class WorkflowPolicy {
 		curStart = r.startTime;
 		long compute = Math.round((float) curNode.getInstructionSize() / (curInst.getType().getMIPS() * r.freqLevel));
 		compute = utility.configuration.GetUncertaionExecutionTime(compute);
-		
-		curFinish = curStart+ compute;
-		if (r.finishTime<curFinish) {
-			curFinish=r.finishTime;
+
+		curFinish = curStart + compute;
+		if (r.finishTime < curFinish) {
+			curFinish = r.finishTime;
 		}
 		Cost = 0;
 //		if (finishTime > curFinish)

@@ -27,6 +27,15 @@ public class WorkflowNode {
 	private int meanRunTime;
 	private int slackTime = 0;
 	public int graphid = -1;
+	private long transferSize=0;
+
+	public long getTransferSize() {
+		return transferSize;
+	}
+
+	public void setTransferSize(long transferSize) {
+		this.transferSize = transferSize;
+	}
 
 	public WorkflowNode(String nodeId) {
 		id = new String(nodeId);
@@ -85,6 +94,9 @@ public class WorkflowNode {
 		scheduled = false;
 		this.FileSet = Files;
 		this.readFileSize = readFileSize;
+		
+		
+		
 	}
 
 	public WorkflowNode(String id, String name, long inputFileSize, long outputFileSize, long readFileSize, int runTime,

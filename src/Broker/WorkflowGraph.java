@@ -15,7 +15,7 @@ public class WorkflowGraph {
 	private int nodeNum;
 	private final String startNodeId = "start";
 	private final String endNodeId = "end";
-
+	private long edgeNumber=0;
 	private final int jobNumPE = 1;
    
 	private String Name;
@@ -31,6 +31,17 @@ public class WorkflowGraph {
 	}
 	
 	
+	
+
+
+	public long getEdgeNumber() {
+		return edgeNumber;
+	}
+
+
+	public void setEdgeNumber(long edgeNumber) {
+		this.edgeNumber = edgeNumber;
+	}
 
 
 	public boolean convertDagToWorkflowGraph(Adag dag) {
@@ -368,9 +379,9 @@ public class WorkflowGraph {
 		long size = 0;
 
 		for (Job parentJob : dag.getJob()) {
-			if (parentJob.getId().equals(parentId)) {
+			if (parentId.contains(parentJob.getId())) {
 				for (Job childJob : dag.getJob()) {
-					if (childJob.getId().equals(childId)) {
+					if (childId.contains(childJob.getId())) {
 						for (FilenameType outFile : parentJob.getUses()) {
 							if (outFile.getLink() == LinkageType.OUTPUT) {
 								for (FilenameType inFile : childJob.getUses()) {
