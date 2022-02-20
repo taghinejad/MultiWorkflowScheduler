@@ -25,7 +25,7 @@ public class RunDynamicSeries1 {
 			CUSF.GAPfit = true;
 
 			double unCertainDeviation = 0.2, HeftCoefficient = 2, arrival = 1;
-			int workloadnum = 100, wfTasksize = 3;
+			int workloadnum = 1000, wfTasksize = 3;
 			Boolean instprint = false;
 
 			Algorithm[] algs = { Algorithm.CUSF };
