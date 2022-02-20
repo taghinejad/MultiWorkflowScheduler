@@ -31,7 +31,7 @@ public class EUSF extends WorkflowPolicy {
 	float fq = 1;
 	public static result OverallResults;
 	float[] BudgetLevel;
-	private float CostImpact = (float) 0, EnergyImpact = (float) 1, TimeImpact = (float) 0;
+	private float CostImpact = (float) 0, EnergyImpact = (float) 1, TimeImpact = (float) 1;
 	public Map<String, List<levelNodes>> levelDag;
 
 	public EUSF(WorkflowGraph[] g, ResourceSet rs, long bw) {
@@ -44,6 +44,7 @@ public class EUSF extends WorkflowPolicy {
 	}
 
 	List<levelNodes> lvlList = new ArrayList<levelNodes>();
+	
 	float alphaDeadline = 0;
 	double DeadlineFactor = 0;
 	List<Long> TotalDeadline;
@@ -134,56 +135,10 @@ public class EUSF extends WorkflowPolicy {
 	public float schedule(int[] startTimes, int[] deadlines, float cost) {
 		return 0;
 	}
-
-	protected void computeECT_SubDeadline(WorkflowGraph graph, int index) {
-		Map<String, WorkflowNode> nodes = graph.getNodes();
-		int fluct = 0;
-		float alpha = 0;
-		long sum = 0;
-		for (int i = 0; i < lvlList.size(); i++) {
-			for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
-				//	sum += wn.getRunTimeWithData(bandwidth);
-				sum += wn.getRunTime();
-			}
-		}
-		alpha = (float) TotalDeadline.get(index) / sum;
-		float[] DR = new float[lvlList.size()];
-		long levelWeight = 0;
-		for (int i = 0; i < lvlList.size(); i++) {
-			levelWeight = 0;
-			for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
-
-				//levelWeight += wn.getRunTimeWithData(bandwidth);
-				 levelWeight += wn.getRunTime();
-			}
-			DR[i] = levelWeight * alpha;
-			if (i > 0)
-				DR[i] += DR[i - 1];
-		}
-		for (int i = 0; i < lvlList.size(); i++) {
-			lvlList.get(i).setSubDeadline(Math.round(DR[i]));
-		}
-
-		long minDl, subDl = 0;
-		for (int i = 0; i < lvlList.size(); i++) {
-			for (WorkflowNode curNode : lvlList.get(i).getLvlNodes()) {
-				// sum += wn.getRunTimeWithData(bandwidth);
-				subDl = 0;
-				minDl = 0;
-				minDl = curNode.getEST() + curNode.getRunTime();
-				subDl = getLevelNode(curNode.getLevelBottem()).getSubDeadline();
-				// this is deffirent
-				subDl = Math.max(subDl, minDl);
-				subDl = Math.min(subDl, curNode.getLFT());
-				curNode.setDeadline(subDl);
-			}
-		}
-
-	}
-
 	public float schedule(int startTime, int deadline) {
 		return 0;
 	}
+
 	// inserts nodes to level;
 	public void insertLevel(int level, WorkflowNode wn) {
 
@@ -214,7 +169,7 @@ public class EUSF extends WorkflowPolicy {
 		}
 	}
 
-	protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
+protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
 		Map<String, WorkflowNode> nodes = graph.getNodes();
 		int fluct = 0;
 		float alpha,alph = 0;
@@ -283,6 +238,8 @@ public class EUSF extends WorkflowPolicy {
 		}
 
 	}
+
+
 private levelNodes getLevelNode(int levelID) {
 		for (int i = 0; i < lvlList.size(); i++) {
 			{
@@ -322,20 +279,17 @@ private levelNodes getLevelNode(int levelID) {
 
 	private CTTFclass CTTF(long subDl, int maxTime, int minTime, int curTime, float maxBudget, float curBudget,
 			float minBudget, long minEnergy, long maxEnergy, long energy, Boolean Isinstance) {
-//		if (Isinstance) {
-//			return CTTFInst(subDl,maxTime, minTime, curTime, maxBudget, curBudget, minBudget,
-//					minEnergy, maxEnergy, energy);
-//		}
+		if (Isinstance) {
+			return CTTFInst(subDl, maxTime, minTime, curTime, maxBudget, curBudget, minBudget, minEnergy, maxEnergy,
+					energy);
+		}
 		CTTFclass cttf = new CTTFclass();
 
-		cttf.Time = (float) (subDl - curTime) / (subDl - minTime);
+		 cttf.Time = (float) (subDl - curTime) / (subDl - minTime);
 		cttf.Energy = ((float) (maxEnergy - energy) / (maxEnergy - minEnergy));
-		cttf.Cost = ((float) (maxBudget - curBudget) / (maxBudget - minBudget));
-		
-		
-		
-		cttf.CTTF = ((CostImpact * cttf.Cost) + (TimeImpact * cttf.Time) + (EnergyImpact * cttf.Energy)) / 3;
-	
+		// cttf.Cost = ((float) (maxBudget - curBudget) / (maxBudget - minBudget));
+
+		cttf.CTTF = (EnergyImpact * cttf.Energy)+(cttf.Time*TimeImpact);
 
 		return cttf;
 	}
@@ -345,9 +299,9 @@ private levelNodes getLevelNode(int levelID) {
 		CTTFclass cttf = new CTTFclass();
 
 		cttf.Energy = ((float) (maxEnergy - energy) / (maxEnergy - minEnergy));
-	//	cttf.Cost = ((float) (maxBudget - curBudget) / (maxBudget - minBudget));
+		// cttf.Time = ((float) (maxBudget - curBudget) / (maxBudget - minBudget));
 
-		cttf.CTTF = (float) (EnergyImpact * cttf.Energy) ;
+		cttf.CTTF = (float) (((EnergyImpact * cttf.Energy) + (TimeImpact * cttf.Time))) / (TimeImpact + EnergyImpact);
 
 		return cttf;
 	}
@@ -355,6 +309,8 @@ private levelNodes getLevelNode(int levelID) {
 	private float CalculateCTTF(WorkflowNode curNode) {
 
 		result r, rFast, rExpensive, rCheap, bestR = null;
+		List<result> rs = new ArrayList<result>();
+
 		int bestInst = -1;
 		// float bestCost = Float.MAX_VALUE;
 		int bestFinish = Integer.MAX_VALUE;
@@ -382,13 +338,18 @@ private levelNodes getLevelNode(int levelID) {
 				r = super.checkInstanceGapPro(curNode, instances.getInstance(curInst), subDl);
 			else
 				r = checkInstance(curNode, instances.getInstance(curInst));
+
 			// check divider error not to be zero
 			if (r.finishTime > curNode.getDeadline())
 				continue;
+			r.currentInstance = curInst;
+			// rs.add(r);
 			CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost, r.cost, rCheap.cost,
-					minimalEn, maximalEn, r.energy, false);
-			CTTF = CTTFf.CTTF + 10*r.gapFitpercent;
-
+					minimalEn, maximalEn, r.energy, true);
+			CTTF = (float) 1/ r.energy;
+			if (r.gapFitpercent > 0) {
+				CTTF += 10;
+			}
 			// fluct *= 0;
 
 			if (BestCTTF < CTTF && r.finishTime <= subDl) {
@@ -397,7 +358,6 @@ private levelNodes getLevelNode(int levelID) {
 				bestR = r;
 				BestCTTF = CTTF;
 
-				;
 				if (DVFSenabled) {
 					if (!FullFrequency) {
 						taskComp = Math.round((float) curNode.getInstructionSize()
@@ -411,8 +371,10 @@ private levelNodes getLevelNode(int levelID) {
 							r = checkInstanceEFrequency(curNode, instances.getInstance(curInst), minFreq);
 						CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost, r.cost,
 								rCheap.cost, minimalEn, maximalEn, r.energy, true);
-						CTTF = CTTFf.CTTF + 10*r.gapFitpercent;
-
+						CTTF = (float) 1/ r.energy;
+						if (r.gapFitpercent > 0) {
+							CTTF += 10;
+						}
 						if (BestCTTF < CTTF && r.finishTime <= curNode.getDeadline()) {
 
 							minEnergy = r.energy;
@@ -424,8 +386,7 @@ private levelNodes getLevelNode(int levelID) {
 						float freqChange = instances.getInstance(curInst).getType().getChangeFrequency();
 						float maxFreq = instances.getInstance(curInst).getType().getMaxFrequencyOr1();
 						float miniFreq = instances.getInstance(curInst).getType().getMinFrequency();
-						for (float freq = maxFreq
-								- freqChange; freq >= miniFreq; freq -= freqChange) {
+						for (float freq = maxFreq - freqChange; freq >= miniFreq; freq -= freqChange) {
 
 							if (GAPfit)
 								r = checkInstanceGapFreqPro(curNode, instances.getInstance(curInst), subDl, freq);
@@ -437,7 +398,10 @@ private levelNodes getLevelNode(int levelID) {
 
 							CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost,
 									r.cost, rCheap.cost, minimalEn, maximalEn, r.energy, true);
-							CTTF = CTTFf.CTTF + 10*r.gapFitpercent;
+							CTTF = (float) 1/ r.energy;
+							if (r.gapFitpercent > 0) {
+								CTTF += 10;
+							}
 
 							if (BestCTTF < CTTF && r.finishTime <= curNode.getDeadline()) {
 
@@ -456,77 +420,29 @@ private levelNodes getLevelNode(int levelID) {
 
 			}
 		}
-		if (bestInst==-1)
-		for (int curRes = 0; curRes < resources.getSize(); curRes++) { // because the cheapest one is the last
-			Instance inst = new Instance(instances.getSize(), resources.getResource(curRes));
-			r = checkInstance(curNode, inst);
-			long finish = (long) (r.finishTime);
-			if (finish > curNode.getDeadline())
-				break;
+		if (bestInst == -1)
+			for (int curRes = 0; curRes < resources.getSize(); curRes++) { // because the cheapest one is the last
+				Instance inst = new Instance(instances.getSize(), resources.getResource(curRes));
+				r = checkInstance(curNode, inst);
+				long finish = (long) (r.finishTime);
+				if (finish > curNode.getDeadline())
+					break;
 
-			CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rFast.cost, r.cost, rCheap.cost,
-					minimalEn, maximalEn, r.energy, false);
+				CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rFast.cost, r.cost, rCheap.cost,
+						minimalEn, maximalEn, r.energy, false);
 
-			CTTF = CTTFf.CTTF + 10*r.gapFitpercent;
+				CTTF = 1/r.cost;
 
-			if (BestCTTF < CTTF && finish <= curNode.getDeadline()) {
+				if (BestCTTF < CTTF && finish <= curNode.getDeadline()) {
 
-				minEnergy = r.energy;
-				bestInst = 10000 + curRes;
-				;
-				bestR = r;
-				BestCTTF = CTTF;
+					minEnergy = r.energy;
+					bestInst = 10000 + curRes;
+					bestR = r;
+					BestCTTF = CTTF;
 
-//				if (DVFSenabled) {
-//					if (!FullFrequency) {
-//						taskComp = Math.round((float) curNode.getInstructionSize() / (inst.getType().getMIPS()));
-//						// minFreq = (float) Math.ceil(((float) taskComp * 10 / (subDl - r.startTime)))
-//						// / 10;
-//						minFreq = getMinFreq(taskComp, subDl - r.startTime, inst);
-//
-//						r = checkInstanceEFrequency(curNode, inst, minFreq);
-//						CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost, r.cost,
-//								rCheap.cost, minimalEn, maximalEn, r.energy, false);
-//
-//						CTTF = CTTFf.CTTF + r.gapFitpercent;
-//						if (BestCTTF < CTTF && r.finishTime <= curNode.getDeadline()) {
-//
-//							minEnergy = r.energy;
-//							bestInst = 10000 + curRes;
-//							bestR = r;
-//							BestCTTF = CTTF;
-//						}
-//
-//					} else {
-//						float freqChange = inst.getType().getChangeFrequency();
-//						float maxFreq = inst.getType().getMaxFrequencyOr1();
-//						minFreq = inst.getType().getMinFrequency();
-//						
-//						for (float freq = maxFreq-freqChange; freq >= minFreq; freq -= freqChange) {
-//
-//							r = checkInstanceEFrequency(curNode, inst, freq);
-//							if (r.finishTime > curNode.getDeadline())
-//								break;
-//							
-//							CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost,
-//									r.cost, rCheap.cost, minimalEn, maximalEn, r.energy, false);
-//
-//							CTTF = CTTFf.CTTF + r.gapFitpercent;
-//							if (BestCTTF < CTTF && r.finishTime <= curNode.getDeadline()) {
-//
-//								minEnergy = r.energy;
-//								bestInst = 10000 + curRes;
-//								bestR = r;
-//								BestCTTF = CTTF;
-//							}
-//						}
-//
-//					}
-//
-//				}
+				}
+
 			}
-
-		}
 
 		Boolean boolInstNotFound = false;
 		if (bestInst == -1) {
@@ -550,10 +466,7 @@ private levelNodes getLevelNode(int levelID) {
 			}
 			rassigned = setInstanceE(curNode, inst, bestR, graph);
 		}
-//		if (curNode.getDeadline() < rassigned.finishTime) {
-//			System.out.println("id: " + curNode.getId() + "  dl: " + curNode.getDeadline() + " resourceFinish: "
-//					+ rassigned.finishTime);
-//		}
+
 		OverallResults.transferTime += rassigned.transferTime;
 		OverallResults.reliability *= rassigned.reliability;
 		OverallResults.energy += rassigned.energy;
@@ -566,6 +479,7 @@ private levelNodes getLevelNode(int levelID) {
 		for (WorkflowNode node : graph.getNodes().values())
 			node.setUnscheduled();
 	}
+
 	protected void updateChildrenEST(WorkflowNode parentNode) {
 		for (Link child : parentNode.getChildren()) {
 			WorkflowNode childNode = graph.getNodes().get(child.getId());
@@ -635,7 +549,6 @@ private levelNodes getLevelNode(int levelID) {
 		return (criticalPath);
 	}
 
-
 	private void assignParents(WorkflowNode curNode) {
 		List<WorkflowNode> criticalPath;
 
@@ -676,6 +589,7 @@ private levelNodes getLevelNode(int levelID) {
 			}
 		}
 	}
+
 	private Boolean planning() {
 
 		result r;
