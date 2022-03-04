@@ -3146,7 +3146,7 @@ public abstract class WorkflowPolicy {
 		long computation = Math.round(
 				(float) curNode.getInstructionSize() / (curInst.getType().getMIPS() * curInst.getFrequencyLevel()));
 		float fluct = calcFluctuation(computation);
-		computation = computation + Math.round(fluct);
+		computation = computation;
 		if (curInst.getFinishTime() == 0) {
 			computation += configuration.getProvisioningDelay();
 		}
