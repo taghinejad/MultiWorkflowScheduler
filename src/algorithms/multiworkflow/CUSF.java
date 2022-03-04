@@ -22,17 +22,16 @@ public class CUSF extends WorkflowPolicy {
 	boolean backCheck = true;
 	boolean justRemainingBudget = false;
 	public int NodeSizes;
-	public static boolean DVFSenabled = false;
+	public static boolean DVFSenabled = true;
 	public static boolean GAPfit = true;
 	public static boolean FullFrequency = false;
 	public static double averageRunTime = 0;
 	public static double edges = 0;
-	// DVFS : Dynamic Voltage Frequency Scaling
-	// fq is Frequncy Impact factor.
+
 	float fq = 1;
 	public static result OverallResults;
 	float[] BudgetLevel;
-	private float CostImpact = (float) 1, EnergyImpact = (float) 0, TimeImpact = (float) 0;
+
 	public Map<String, List<levelNodes>> levelDag;
 
 	public CUSF(WorkflowGraph[] g, ResourceSet rs, long bw) {
@@ -155,29 +154,23 @@ public class CUSF extends WorkflowPolicy {
 	}
 
 	protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
-		Map<String, WorkflowNode> nodes = graph.getNodes();
+
 		int fluct = 0;
-		float alpha, alph = 0;
-		long sum = 0,run=0;
+		float alph = 0;
+		long sum = 0;
 		edges=0;
-		long datasize=0;
+
 		for (int i = 0; i < lvlList.size(); i++) {
 			for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
 				// fluct = Math.round(calcFluctuation(wn.getRunTime()));
 				sum += wn.getRunTimeWithData(bandwidth) + fluct;
-				run+=wn.getRunTime();
-				datasize+=wn.getTransferSize();
+
 			}
 		}
+	
 		
-		int nodeSize = graph.getNodeNum() - 2;
-//		System.out.println(String.format("Graph name:%s nodeSize:%d edgeSize:%d avgRunTime:%f avgTransferSize:%f depth:%d", graph.GetName(),
-//				nodeSize,graph.getEdgeNumber(), (float) run / nodeSize, (float) datasize/1000000 / nodeSize,lvlList.size())) ;
-
-		
-		alpha = (float) TotalDeadline.get(index) / sum;
 		alph = ((float) TotalDeadline.get(index) - TotalStartTimes.get(index)) / sum;
-		float[] DR = new float[lvlList.size()];
+
 		float[] DRr = new float[lvlList.size()];
 		long levelWeight = 0;
 		DRr[0] = TotalStartTimes.get(index);
@@ -186,10 +179,10 @@ public class CUSF extends WorkflowPolicy {
 			for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
 				levelWeight += wn.getRunTimeWithData(bandwidth) + fluct;
 			}
-			DR[i] = levelWeight * alpha;
+		
 			DRr[i] = levelWeight * alph;
 			if (i > 0) {
-				DR[i] += DR[i - 1];
+
 				DRr[i] += DRr[i - 1];
 			} else
 				DRr[i] = TotalStartTimes.get(index) + DRr[i];
@@ -232,8 +225,6 @@ public class CUSF extends WorkflowPolicy {
 		lvlList.clear();
 		PriorityQueue<WorkflowNode> queue = new PriorityQueue<WorkflowNode>(graph.nodes.size(),
 				new WorkflowPolicy.DownLevelComparator());
-		result r;
-		int bestFinish = Integer.MAX_VALUE;
 
 		computeDownRank(graph);
 		// addes nodes to graph
@@ -253,17 +244,12 @@ public class CUSF extends WorkflowPolicy {
 
 	private float CalculateCTTF(WorkflowNode curNode) {
 
-		result r, rFast, rExpensive, rCheap, bestR = null;
+		result r,  bestR = null;
 		int bestInst = -1;
-		// float bestCost = Float.MAX_VALUE;
-		int bestFinish = Integer.MAX_VALUE;
-		long minEnergy = Integer.MAX_VALUE;
-		float Time, ENERGY;
+
 		long subDl;
 		float CTTF, BestCTTF = Integer.MAX_VALUE * -1;
-		float minFreq = 1;
 
-		long taskComp = 0;
 
 		subDl = (long) curNode.getDeadline();
 
@@ -279,16 +265,16 @@ public class CUSF extends WorkflowPolicy {
 
 			CTTF = 1 / (1 + r.cost);
 			if (r.gapFitpercent > 0) {
-				// CTTF += 10+1 / (curNode.getDeadline() - r.finishTime);
-				CTTF += 1;
+
+				CTTF += 10;
 			}
-			// fluct *= 0;
+		
 
 			if (BestCTTF <= CTTF && r.finishTime <= subDl) {
 				if (BestCTTF == CTTF && r.finishTime >= bestR.finishTime) {
 					continue;
 				}
-				minEnergy = r.energy;
+				
 				bestInst = curInst;
 				bestR = r;
 				BestCTTF = CTTF;
@@ -308,7 +294,7 @@ public class CUSF extends WorkflowPolicy {
 
 				if (BestCTTF < CTTF && finish <= curNode.getDeadline()) {
 
-					minEnergy = r.energy;
+					
 					bestInst = 10000 + curRes;
 					;
 					bestR = r;
@@ -317,12 +303,8 @@ public class CUSF extends WorkflowPolicy {
 				}
 
 			}
-
-		Boolean boolInstNotFound = false;
 		if (bestInst == -1) {
 			bestInst = getFastestInstanceIndex(curNode);
-			boolInstNotFound = true;
-
 		}
 
 		result rassigned;
@@ -340,10 +322,7 @@ public class CUSF extends WorkflowPolicy {
 			}
 			rassigned = setInstanceE(curNode, inst, bestR, graph);
 		}
-//		if (curNode.getDeadline() < rassigned.finishTime) {
-//			System.out.println("id: " + curNode.getId() + "  dl: " + curNode.getDeadline() + " resourceFinish: "
-//					+ rassigned.finishTime);
-//		}
+
 		OverallResults.transferTime += rassigned.transferTime;
 		OverallResults.reliability *= rassigned.reliability;
 		OverallResults.energy += rassigned.energy;
@@ -352,9 +331,6 @@ public class CUSF extends WorkflowPolicy {
 	}
 
 	private Boolean planning() {
-
-		result r;
-
 		PriorityQueue<WorkflowNode> queue = new PriorityQueue<WorkflowNode>(NodeSizes,
 				new WorkflowPolicy.subDeadlineAscending());
 
@@ -385,52 +361,24 @@ public class CUSF extends WorkflowPolicy {
 	private class levelNodes {
 		int levelid;
 		List<WorkflowNode> lvlNodes = new ArrayList<>();
-		private float subBudget;
+
 		private long subDeadline;
 
 		public levelNodes(int levelid, WorkflowNode lvlNodes) {
 			super();
 			this.levelid = levelid;
 			this.lvlNodes.add(lvlNodes);
-			this.subBudget = 0;
+
 			this.subDeadline = 0;
 		}
 
-		public int getNodeLevelId(String nodeID) {
-			for (int i = 0; i < lvlList.size(); i++) {
-				for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
-					if (wn.getId().contains(nodeID))
-						return i;
-				}
-			}
-			return -1;
-		}
-
-		public int getLevelid() {
-			return levelid;
-		}
-
-		public void setLevelid(int levelid) {
-			this.levelid = levelid;
-		}
+	
 
 		public List<WorkflowNode> getLvlNodes() {
 			return lvlNodes;
 		}
 
-		public void setLvlNodes(List<WorkflowNode> lvlNodes) {
-			this.lvlNodes = lvlNodes;
-		}
-
-		public float getSubBudget() {
-			if (!justRemainingBudget)
-				return subBudget;
-			return remaingCost;
-		}
-
-		public void setSubBudget(float subBudget) {
-			this.subBudget = subBudget;
-		}
+		
 
 		public long getSubDeadline() {
 			return subDeadline;
