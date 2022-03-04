@@ -31,7 +31,7 @@ public class EUSF extends WorkflowPolicy {
 	float fq = 1;
 	public static result OverallResults;
 	float[] BudgetLevel;
-	private float CostImpact = (float) 0, EnergyImpact = (float) 1, TimeImpact = (float) 1;
+
 	public Map<String, List<levelNodes>> levelDag;
 
 	public EUSF(WorkflowGraph[] g, ResourceSet rs, long bw) {
@@ -44,7 +44,7 @@ public class EUSF extends WorkflowPolicy {
 	}
 
 	List<levelNodes> lvlList = new ArrayList<levelNodes>();
-	
+
 	float alphaDeadline = 0;
 	double DeadlineFactor = 0;
 	List<Long> TotalDeadline;
@@ -65,7 +65,7 @@ public class EUSF extends WorkflowPolicy {
 		OverallResults = new result();
 		OverallResults.algorithmName = currentAlgrotihm;
 		this.TotalDeadline = deadlines;
-		this.TotalStartTimes=startTimes;
+		this.TotalStartTimes = startTimes;
 		this.TotalCost = cost;
 		this.remaingCost = cost;
 
@@ -79,7 +79,6 @@ public class EUSF extends WorkflowPolicy {
 			initializeStartEndNodes(graphs[i], startTimes.get(i), deadlines.get(i));
 
 			calculateLevelLists(graphs[i], cost);
-			distributeDeadline(graphs[i]);
 			computeECT_SubDeadlineFluct(graphs[i], i);
 
 		}
@@ -125,9 +124,7 @@ public class EUSF extends WorkflowPolicy {
 		}
 		algEnd4 = System.nanoTime() - alStart - algEnd3;
 		algEnd5 = System.nanoTime() - alStart;
-		System.out.println(" \n altimer: precompile:" + algEnd / 1000000000 + " leveling:" + algEnd2 / 1000000000
-				+ " dl dis:" + algEnd3 / 1000000000 + " planning:" + algEnd4 / 1000000000 + " after:"
-				+ algEnd5 / 1000000000);
+
 		return (cost);
 
 	}
@@ -135,6 +132,7 @@ public class EUSF extends WorkflowPolicy {
 	public float schedule(int[] startTimes, int[] deadlines, float cost) {
 		return 0;
 	}
+
 	public float schedule(int startTime, int deadline) {
 		return 0;
 	}
@@ -154,54 +152,37 @@ public class EUSF extends WorkflowPolicy {
 
 	}
 
-	private void calculateSubDeadlines() {
+	protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
 
-		for (int i = 0; i < lvlList.size(); i++) {
-			{
-				int max = -1;
-				for (WorkflowNode wn : lvlList.get(i).lvlNodes) {
-					if (wn.getEFT() > max)
-						max = wn.getEFT();
-				}
-				lvlList.get(i).setSubDeadline(max);
-
-			}
-		}
-	}
-
-protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
-		Map<String, WorkflowNode> nodes = graph.getNodes();
 		int fluct = 0;
-		float alpha,alph = 0;
+		float alph = 0;
 		long sum = 0;
+
 		for (int i = 0; i < lvlList.size(); i++) {
 			for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
 				// fluct = Math.round(calcFluctuation(wn.getRunTime()));
 				sum += wn.getRunTimeWithData(bandwidth) + fluct;
-//				sum += wn.getRunTime();
+
 			}
 		}
-		alpha = (float) TotalDeadline.get(index) / sum;
-		alph = ((float) TotalDeadline.get(index)-TotalStartTimes.get(index)) / sum;
-		float[] DR = new float[lvlList.size()];
+
+		alph = ((float) TotalDeadline.get(index) - TotalStartTimes.get(index)) / sum;
+
 		float[] DRr = new float[lvlList.size()];
 		long levelWeight = 0;
-		DRr[0]=TotalStartTimes.get(index);
+		DRr[0] = TotalStartTimes.get(index);
 		for (int i = 0; i < lvlList.size(); i++) {
 			levelWeight = 0;
 			for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
-				// fluct = Math.round(calcFluctuation(wn.getRunTime()));
 				levelWeight += wn.getRunTimeWithData(bandwidth) + fluct;
-				// levelWeight += wn.getRunTime();
 			}
-			DR[i] = levelWeight * alpha;
+
 			DRr[i] = levelWeight * alph;
 			if (i > 0) {
-				DR[i] += DR[i - 1];
+
 				DRr[i] += DRr[i - 1];
-			}
-			else
-				DRr[i]=TotalStartTimes.get(index)+DRr[i];
+			} else
+				DRr[i] = TotalStartTimes.get(index) + DRr[i];
 		}
 		for (int i = 0; i < lvlList.size(); i++) {
 			lvlList.get(i).setSubDeadline(Math.round(DRr[i]));
@@ -209,8 +190,7 @@ protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
 
 		long minDl, subDl = 0, maxsubDl;
 
-		
-		//sets sub deadline for each task. 
+		// sets sub deadline for each task.
 		for (int i = 0; i < lvlList.size(); i++) {
 			maxsubDl = 0;
 			for (WorkflowNode curNode : lvlList.get(i).getLvlNodes()) {
@@ -239,23 +219,10 @@ protected void computeECT_SubDeadlineFluct(WorkflowGraph graph, int index) {
 
 	}
 
-
-private levelNodes getLevelNode(int levelID) {
-		for (int i = 0; i < lvlList.size(); i++) {
-			{
-				if (lvlList.get(i).getLevelid() == levelID)
-					return lvlList.get(i);
-			}
-		}
-		return null;
-	}
-
 	private void calculateLevelLists(WorkflowGraph graph, float cost) {
 		lvlList.clear();
 		PriorityQueue<WorkflowNode> queue = new PriorityQueue<WorkflowNode>(graph.nodes.size(),
 				new WorkflowPolicy.DownLevelComparator());
-		result r;
-		int bestFinish = Integer.MAX_VALUE;
 
 		computeDownRank(graph);
 		// addes nodes to graph
@@ -267,70 +234,25 @@ private levelNodes getLevelNode(int levelID) {
 			WorkflowNode curNode = queue.remove();
 			insertLevel(curNode.getLevelBottem(), curNode);
 		}
-		lvlList.get(0).setSubBudget(cost);
 
 		levelDag.put(graph.GetName(), lvlList);
 
 	}
 
-	private float getConsumedCost() {
-		return super.computeFinalCost();
-	}
-
-	private CTTFclass CTTF(long subDl, int maxTime, int minTime, int curTime, float maxBudget, float curBudget,
-			float minBudget, long minEnergy, long maxEnergy, long energy, Boolean Isinstance) {
-		if (Isinstance) {
-			return CTTFInst(subDl, maxTime, minTime, curTime, maxBudget, curBudget, minBudget, minEnergy, maxEnergy,
-					energy);
-		}
-		CTTFclass cttf = new CTTFclass();
-
-		 cttf.Time = (float) (subDl - curTime) / (subDl - minTime);
-		cttf.Energy = ((float) (maxEnergy - energy) / (maxEnergy - minEnergy));
-		// cttf.Cost = ((float) (maxBudget - curBudget) / (maxBudget - minBudget));
-
-		cttf.CTTF = (EnergyImpact * cttf.Energy)+(cttf.Time*TimeImpact);
-
-		return cttf;
-	}
-
-	private CTTFclass CTTFInst(long subDl, int maxTime, int minTime, int curTime, float maxBudget, float curBudget,
-			float minBudget, long minEnergy, long maxEnergy, long energy) {
-		CTTFclass cttf = new CTTFclass();
-
-		cttf.Energy = ((float) (maxEnergy - energy) / (maxEnergy - minEnergy));
-		// cttf.Time = ((float) (maxBudget - curBudget) / (maxBudget - minBudget));
-
-		cttf.CTTF = (float) (((EnergyImpact * cttf.Energy) + (TimeImpact * cttf.Time))) / (TimeImpact + EnergyImpact);
-
-		return cttf;
-	}
-
 	private float CalculateCTTF(WorkflowNode curNode) {
 
-		result r, rFast, rExpensive, rCheap, bestR = null;
-		List<result> rs = new ArrayList<result>();
+		result r, bestR = null;
 
 		int bestInst = -1;
 		// float bestCost = Float.MAX_VALUE;
-		int bestFinish = Integer.MAX_VALUE;
-		long minEnergy = Integer.MAX_VALUE;
-		float Time, ENERGY;
+
 		long subDl;
 		float CTTF, BestCTTF = Integer.MAX_VALUE * -1;
 		float minFreq = 1;
 
 		long taskComp = 0;
 
-		rFast = checkInstanceE(curNode, getFastestInstance(curNode));
-		rCheap = checkInstanceE(curNode, getCheapInstanceNoDeadline(curNode));
-		rExpensive = checkInstanceE(curNode, getExpensiveInstance(curNode));
-		long minimalEn = getMinEnergy(curNode).energy;
-		long maximalEn = getMaxEnergy(curNode).energy;
-
 		subDl = (long) curNode.getDeadline();
-		// subDl = (long) curNode.getLFT();
-		CTTFclass CTTFf;
 
 		for (int curInst = 0; curInst < instances.getSize(); curInst++) {
 
@@ -344,16 +266,15 @@ private levelNodes getLevelNode(int levelID) {
 				continue;
 			r.currentInstance = curInst;
 			// rs.add(r);
-			CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost, r.cost, rCheap.cost,
-					minimalEn, maximalEn, r.energy, true);
-			CTTF = (float) 1/ r.energy;
+
+			CTTF = (float) 1 / r.energy;
 			if (r.gapFitpercent > 0) {
 				CTTF += 10;
 			}
 			// fluct *= 0;
 
 			if (BestCTTF < CTTF && r.finishTime <= subDl) {
-				minEnergy = r.energy;
+
 				bestInst = curInst;
 				bestR = r;
 				BestCTTF = CTTF;
@@ -369,15 +290,13 @@ private levelNodes getLevelNode(int levelID) {
 							r = checkInstanceGapFreqPro(curNode, instances.getInstance(curInst), subDl, minFreq);
 						else
 							r = checkInstanceEFrequency(curNode, instances.getInstance(curInst), minFreq);
-						CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost, r.cost,
-								rCheap.cost, minimalEn, maximalEn, r.energy, true);
-						CTTF = (float) 1/ r.energy;
+
+						CTTF = (float) 1 / r.energy;
 						if (r.gapFitpercent > 0) {
 							CTTF += 10;
 						}
 						if (BestCTTF < CTTF && r.finishTime <= curNode.getDeadline()) {
 
-							minEnergy = r.energy;
 							bestInst = curInst;
 							bestR = r;
 							BestCTTF = CTTF;
@@ -396,16 +315,13 @@ private levelNodes getLevelNode(int levelID) {
 							if (r.finishTime > curNode.getDeadline())
 								break;
 
-							CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rExpensive.cost,
-									r.cost, rCheap.cost, minimalEn, maximalEn, r.energy, true);
-							CTTF = (float) 1/ r.energy;
+							CTTF = (float) 1 / r.energy;
 							if (r.gapFitpercent > 0) {
 								CTTF += 10;
 							}
 
 							if (BestCTTF < CTTF && r.finishTime <= curNode.getDeadline()) {
 
-								minEnergy = r.energy;
 								bestInst = curInst;
 								bestR = r;
 								BestCTTF = CTTF;
@@ -428,14 +344,10 @@ private levelNodes getLevelNode(int levelID) {
 				if (finish > curNode.getDeadline())
 					break;
 
-				CTTFf = CTTF(subDl, rCheap.finishTime, rFast.finishTime, r.finishTime, rFast.cost, r.cost, rCheap.cost,
-						minimalEn, maximalEn, r.energy, false);
-
-				CTTF = 1/r.cost;
+				CTTF = 1 / r.cost;
 
 				if (BestCTTF < CTTF && finish <= curNode.getDeadline()) {
 
-					minEnergy = r.energy;
 					bestInst = 10000 + curRes;
 					bestR = r;
 					BestCTTF = CTTF;
@@ -444,10 +356,8 @@ private levelNodes getLevelNode(int levelID) {
 
 			}
 
-		Boolean boolInstNotFound = false;
 		if (bestInst == -1) {
 			bestInst = getFastestInstanceIndex(curNode);
-			boolInstNotFound = true;
 
 		}
 
@@ -472,122 +382,6 @@ private levelNodes getLevelNode(int levelID) {
 		OverallResults.energy += rassigned.energy;
 		OverallResults.cost += rassigned.cost;
 		return rassigned.cost;
-	}
-
-	private void distributeDeadline(WorkflowGraph graph) {
-		assignParents(graph.getNodes().get(graph.getEndId()));
-		for (WorkflowNode node : graph.getNodes().values())
-			node.setUnscheduled();
-	}
-
-	protected void updateChildrenEST(WorkflowNode parentNode) {
-		for (Link child : parentNode.getChildren()) {
-			WorkflowNode childNode = graph.getNodes().get(child.getId());
-			int newEST;
-
-			if (!childNode.isScheduled()) {
-				if (parentNode.isScheduled())
-					newEST = Math.round(parentNode.getDeadline()) + Math.round((float) child.getDataSize() / bandwidth);
-				else
-					newEST = parentNode.getEFT() + Math.round((float) child.getDataSize() / bandwidth);
-
-				if (childNode.getEST() < newEST) {
-					childNode.setEST(newEST);
-					childNode.setEFT(newEST + childNode.getRunTime());
-					updateChildrenEST(childNode);
-				}
-			}
-		}
-	}
-
-	protected void updateParentsLFT(WorkflowNode childNode) {
-		for (Link parent : childNode.getParents()) {
-			WorkflowNode parentNode = graph.getNodes().get(parent.getId());
-			int newLFT;
-
-			if (!parentNode.isScheduled()) {
-				if (childNode.isScheduled())
-					newLFT = childNode.getEST() - Math.round((float) parent.getDataSize() / bandwidth);
-				else
-					newLFT = childNode.getLST() - Math.round((float) parent.getDataSize() / bandwidth);
-
-				if (parentNode.getLFT() > newLFT) {
-					parentNode.setLFT(newLFT);
-					parentNode.setLST(newLFT - parentNode.getRunTime());
-					updateParentsLFT(parentNode);
-				}
-			}
-		}
-	}
-
-	protected WorkflowNode findCriticalParent(WorkflowNode child) {
-		WorkflowNode criticalPar = null;
-		int criticalParStart = -1, curStart;
-
-		for (Link parentLink : child.getParents()) {
-			WorkflowNode parentNode = graph.getNodes().get(parentLink.getId());
-			if (parentNode.isScheduled())
-				continue;
-
-			curStart = parentNode.getEFT() + Math.round((float) parentLink.getDataSize() / bandwidth);
-			if (curStart > criticalParStart) {
-				criticalParStart = curStart;
-				criticalPar = parentNode;
-			}
-		}
-		return (criticalPar);
-	}
-
-	protected List<WorkflowNode> findPartialCriticalPath(WorkflowNode curNode) {
-		List<WorkflowNode> criticalPath = new ArrayList<WorkflowNode>();
-
-		do {
-			curNode = findCriticalParent(curNode);
-			if (curNode != null)
-				criticalPath.add(0, curNode);
-		} while (curNode != null);
-		return (criticalPath);
-	}
-
-	private void assignParents(WorkflowNode curNode) {
-		List<WorkflowNode> criticalPath;
-
-		criticalPath = findPartialCriticalPath(curNode);
-		if (criticalPath.isEmpty())
-			return;
-
-		assignPath(criticalPath);
-		for (int i = 0; i < criticalPath.size(); i++) {
-			updateChildrenEST(criticalPath.get(i));
-			updateParentsLFT(criticalPath.get(i));
-		}
-		for (int i = 0; i < criticalPath.size(); i++)
-			assignParents(criticalPath.get(i));
-
-		assignParents(curNode);
-	}
-
-	private void assignPath(List<WorkflowNode> path) {
-		int last = path.size() - 1;
-		int pathEST = path.get(0).getEST();
-		int pathEFT = path.get(last).getEFT();
-		int PSD = path.get(last).getLFT() - pathEST;
-
-		for (int i = 0; i <= last; i++) {
-			WorkflowNode curNode = path.get(i);
-			int subDeadline = pathEST
-					+ (int) Math.floor((float) (curNode.getEFT() - pathEST) / (float) (pathEFT - pathEST) * PSD);
-
-			curNode.setDeadline(subDeadline);
-			curNode.setScheduled();
-
-			if (i > 0) {
-				int newEST = Math.round(path.get(i - 1).getDeadline())
-						+ Math.round((float) getDataSize(path.get(i - 1), curNode) / bandwidth);
-				if (newEST > curNode.getEST())
-					curNode.setEST(newEST);
-			}
-		}
 	}
 
 	private Boolean planning() {
@@ -621,61 +415,22 @@ private levelNodes getLevelNode(int levelID) {
 
 	}
 
-	private class CTTFclass {
-		public float Time;
-		public float Cost;
-		public float Energy;
-		public float CTTF;
-	}
-
 	private class levelNodes {
 		int levelid;
 		List<WorkflowNode> lvlNodes = new ArrayList<>();
-		private float subBudget;
+
 		private long subDeadline;
 
 		public levelNodes(int levelid, WorkflowNode lvlNodes) {
 			super();
 			this.levelid = levelid;
 			this.lvlNodes.add(lvlNodes);
-			this.subBudget = 0;
+
 			this.subDeadline = 0;
-		}
-
-		public int getNodeLevelId(String nodeID) {
-			for (int i = 0; i < lvlList.size(); i++) {
-				for (WorkflowNode wn : lvlList.get(i).getLvlNodes()) {
-					if (wn.getId().contains(nodeID))
-						return i;
-				}
-			}
-			return -1;
-		}
-
-		public int getLevelid() {
-			return levelid;
-		}
-
-		public void setLevelid(int levelid) {
-			this.levelid = levelid;
 		}
 
 		public List<WorkflowNode> getLvlNodes() {
 			return lvlNodes;
-		}
-
-		public void setLvlNodes(List<WorkflowNode> lvlNodes) {
-			this.lvlNodes = lvlNodes;
-		}
-
-		public float getSubBudget() {
-			if (!justRemainingBudget)
-				return subBudget;
-			return remaingCost;
-		}
-
-		public void setSubBudget(float subBudget) {
-			this.subBudget = subBudget;
 		}
 
 		public long getSubDeadline() {
