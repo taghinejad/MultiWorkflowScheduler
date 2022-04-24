@@ -28,7 +28,7 @@ public class RunDynamicSeries1 {
 			int workloadnum = 1000, wfTasksize = 3;
 			Boolean instprint = false;
 
-			Algorithm[] algs = { Algorithm.CUSF, Algorithm.EUSF,Algorithm.NOSF };
+			Algorithm[] algs = { Algorithm.CUSF, Algorithm.EUSF};
 			// Algorithm.NOSF,Algorithm.ERES_Neha
 
 			DynamicSeriesClasses.RunProDynamicPossionWorkload(algs, unCertainDeviation, HeftCoefficient, workloadnum,
