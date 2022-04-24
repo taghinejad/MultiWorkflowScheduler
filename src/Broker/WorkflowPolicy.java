@@ -2065,10 +2065,10 @@ public abstract class WorkflowPolicy {
 	}
 
 	public int calcEnergyBasedLi(int exTime, float freq, Instance curInst) {
-//		Li, Z., Ge, J., Hu, H., Song, W., Hu, H., & Luo, B. (2018). Cost and Energy Aware Scheduling Algorithm for Scientific Workflows with Deadline Constraint in Clouds. IEEE TRANSACTIONS ON SERVICES COMPUTING, 11(4), 713–726.
-
-//		curInst.getType().getEnergyPerSec());
-		float freqLevel = curInst.getFrequencyLevel(freq);
+float freqLevel =1;
+		if (freq<curInst.getType().getMaxFrequencyOr1()) {
+			freqLevel = curInst.getFrequencyLevel(freq);
+		}
 		float voltage = curInst.getType().getVoltage();
 		voltage = voltage * freqLevel;
 		if (voltage == 0) {
@@ -2077,11 +2077,15 @@ public abstract class WorkflowPolicy {
 		}
 		float lenVol = curInst.getType().getVoltage() - curInst.getType().getMinVoltage();
 		float lenFreq = curInst.getType().getMaxFrequencyOr1() - curInst.getType().getMinFrequency();
+		
 		float f = freq - curInst.getType().getMinFrequency();
-		f = (f * 1 / (float) 1.2);
-		voltage = curInst.getType().getMinVoltage() + (lenVol * f);
-		int energy = (int) Math
-				.ceil((float) exTime * freq * Math.pow(voltage, 2) * curInst.getType().getEnergyPerSec());
+		float ff=f*lenVol/lenFreq;
+		//voltage = curInst.getType().getMinVoltage() + (lenVol * f);
+		
+		voltage= curInst.getType().getMinVoltage()+ff;
+		//f = (f * 1 / (float) 1.2);
+		
+		float energy = (float) ((float) exTime * freq * Math.pow(voltage, 2) * curInst.getType().getEnergyPerSec());
 		return energy;
 	}
 
