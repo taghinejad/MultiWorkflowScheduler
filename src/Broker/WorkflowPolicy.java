@@ -2065,14 +2065,14 @@ public abstract class WorkflowPolicy {
 	}
 
 	public int calcEnergyBasedLi(int exTime, float freq, Instance curInst) {
-float freqLevel =1;
+		float freqLevel =1;
 		if (freq<curInst.getType().getMaxFrequencyOr1()) {
 			freqLevel = curInst.getFrequencyLevel(freq);
 		}
 		float voltage = curInst.getType().getVoltage();
 		voltage = voltage * freqLevel;
 		if (voltage == 0) {
-			// System.out.print("Voltage is not set honey. ");
+		
 			return (int) Math.ceil((float) exTime * Math.pow(freq, 3) * curInst.getType().getEnergyPerSec());
 		}
 		float lenVol = curInst.getType().getVoltage() - curInst.getType().getMinVoltage();
@@ -2080,11 +2080,8 @@ float freqLevel =1;
 		
 		float f = freq - curInst.getType().getMinFrequency();
 		float ff=f*lenVol/lenFreq;
-		//voltage = curInst.getType().getMinVoltage() + (lenVol * f);
-		
-		voltage= curInst.getType().getMinVoltage()+ff;
-		//f = (f * 1 / (float) 1.2);
-		
+
+		voltage= curInst.getType().getMinVoltage()+ff;	
 		float energy = (float) ((float) exTime * freq * Math.pow(voltage, 2) * curInst.getType().getEnergyPerSec());
 		return energy;
 	}
